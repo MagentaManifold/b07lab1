@@ -27,7 +27,7 @@ public class Polynomial {
         for (int i = 0; i < coefs.length; i++) {
             result += coefs[i] * Math.pow(x, i);
         }
-        return  result;
+        return result;
     }
     public boolean hasRoot(double x) {
         return Math.abs(evaluate(x)) < 0.000001;
