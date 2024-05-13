@@ -1,8 +1,10 @@
 public class Polynomial {
     private double[] coefs;
+
     public Polynomial() {
         coefs = new double[]{0};
     }
+
     public Polynomial(double[] coefs) {
         this.coefs = coefs;
     }
@@ -12,10 +14,10 @@ public class Polynomial {
         double[] newCoefs = new double[length];
         for (int i = 0; i < length; i++) {
             newCoefs[i] = 0;
-            if(i < this.coefs.length) {
+            if (i < this.coefs.length) {
                 newCoefs[i] += this.coefs[i];
             }
-            if(i < other.coefs.length) {
+            if (i < other.coefs.length) {
                 newCoefs[i] += other.coefs[i];
             }
         }
@@ -29,6 +31,7 @@ public class Polynomial {
         }
         return result;
     }
+
     public boolean hasRoot(double x) {
         return Math.abs(evaluate(x)) < 0.000001;
     }
