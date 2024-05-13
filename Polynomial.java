@@ -1,13 +1,13 @@
 public class Polynomial {
-    double[] coefs;
-    Polynomial() {
+    private double[] coefs;
+    public Polynomial() {
         coefs = new double[]{0};
     }
-    Polynomial(double[] coefs) {
+    public Polynomial(double[] coefs) {
         this.coefs = coefs;
     }
 
-    Polynomial add(Polynomial other) {
+    public Polynomial add(Polynomial other) {
         int length = Math.max(this.coefs.length, other.coefs.length);
         double[] newCoefs = new double[length];
         for (int i = 0; i < length; i++) {
