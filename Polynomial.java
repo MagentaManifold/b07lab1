@@ -1,24 +1,28 @@
 public class Polynomial {
+    private int[] exps;
     private double[] coefs;
 
     public Polynomial() {
-        coefs = new double[]{0};
+        exps = new int[]{};
+        coefs = new double[]{};
     }
 
-    public Polynomial(double[] coefs) {
+    public Polynomial(double[] coefs, int[] exps) {
         this.coefs = coefs;
+        this.exps = exps
     }
 
     public Polynomial add(Polynomial other) {
-        int length = Math.max(this.coefs.length, other.coefs.length);
-        double[] newCoefs = new double[length];
-        for (int i = 0; i < length; i++) {
-            newCoefs[i] = 0;
-            if (i < this.coefs.length) {
-                newCoefs[i] += this.coefs[i];
-            }
-            if (i < other.coefs.length) {
-                newCoefs[i] += other.coefs[i];
+        int maxLength = this.coefs.length + other.coefs.length;
+        double[] newCoefs = new double[maxLength];
+        int[] newExps = new int[maxLength];
+        for (int i = 0; i < this.coefs.length; i++) {
+            newCoefs[i] = this.coefs[i];
+            newExps[i] = this.exps[i];
+        }
+        for (int i = 0; i < other.coefs.length; i++) {
+            for (int j = 0; j < newCoefs.length; j++) {
+                if (other.exps[i])
             }
         }
         return new Polynomial(newCoefs);
@@ -27,7 +31,7 @@ public class Polynomial {
     public double evaluate(double x) {
         double result = 0;
         for (int i = 0; i < coefs.length; i++) {
-            result += coefs[i] * Math.pow(x, i);
+            result += coefs[i] * Math.pow(x, exps[i]);
         }
         return result;
     }
