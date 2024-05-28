@@ -1,31 +1,72 @@
 public class Polynomial {
     private int[] exps;
     private double[] coefs;
+    private int termCount;
 
     public Polynomial() {
         exps = new int[]{};
         coefs = new double[]{};
+        termCount = 0;
     }
 
     public Polynomial(double[] coefs, int[] exps) {
-        this.coefs = coefs;
-        this.exps = exps
+        if (coefs.length != exps.length) {
+            throw new AssertionError("Coefficient count and exponent count don't match.");
+        }
+        this.coefs = coefs.clone();
+        this.exps = exps.clone();
+    }
+
+    private Polynomial addMonomial(double coef, int exp) {
+        if (coef == 0) {
+            return new Polynomial(coefs, exps);
+        }
+        int index = -1;
+        for (int i = 0; i < termCount; i++) {
+            if (exp == exps[i]) {
+                index = i;
+                break;
+            }
+        }
+        if (index >= 0) { //the term of exp already exists.
+            double[] newCoefs;
+            if (coefs[index] + coef == 0) { // this term is cancelled out and should be deleted.
+                newCoefs = new double[termCount - 1];
+                int[] newExps = new int[termCount - 1];
+                for (int i = 0; i < termCount - 1; i++) {
+                    if (i < index) {
+                        newCoefs[i] = coefs[i];
+                        newExps[i] = exps[i];
+                    } else {
+                        newCoefs[i] = coefs[i + 1];
+                        newExps[i] = exps[i];
+                    }
+                }
+                return new Polynomial(newCoefs, newExps);
+            } else {
+                newCoefs = coefs.clone();
+                newCoefs[index] += coef;
+                return new Polynomial(newCoefs, exps);
+            }
+        } else {
+            double[] newCoefs = new double[termCount + 1];
+            int[] newExps = new int[termCount + 1];
+            for (int i = 0; i < termCount; i++) {
+                newCoefs[i] = coefs[i];
+                newExps[i] = exps[i];
+            }
+            newCoefs[termCount] = coef;
+            newExps[termCount] = exp;
+            return new Polynomial(newCoefs, newExps);
+        }
     }
 
     public Polynomial add(Polynomial other) {
-        int maxLength = this.coefs.length + other.coefs.length;
-        double[] newCoefs = new double[maxLength];
-        int[] newExps = new int[maxLength];
-        for (int i = 0; i < this.coefs.length; i++) {
-            newCoefs[i] = this.coefs[i];
-            newExps[i] = this.exps[i];
+        Polynomial newPoly = new Polynomial(coefs, exps);
+        for (int i = 0; i < other.termCount; i++) {
+            newPoly = newPoly.addMonomial(other.coefs[i], other.exps[i]);
         }
-        for (int i = 0; i < other.coefs.length; i++) {
-            for (int j = 0; j < newCoefs.length; j++) {
-                if (other.exps[i])
-            }
-        }
-        return new Polynomial(newCoefs);
+        return newPoly;
     }
 
     public double evaluate(double x) {
